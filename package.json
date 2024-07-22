@@ -1,0 +1,16 @@
+{
+  "name": "piggame",
+  "version": "1.0.0",
+  "description": "Just a multiplayer pig game.\r The purpose of this repository is to make the game a multiplayer game using websockets",
+  "main": "homeScript.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "socket.io": "^4.7.5"
+  }
+}
