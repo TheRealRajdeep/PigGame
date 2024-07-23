@@ -24,7 +24,7 @@ createGame.addEventListener("click", function () {
   <h2>Waiting for other player to join...</h2>
   <p>Share this link with your friend to start the game</p>
   <div style="display:flex; gap: 10px;" class="session-link-container">
-    <p class = "session-link">https://piggame-production.up.railway.app/join/${invite}</p>
+    <p class = "session-link">http://localhost:3000/join/${invite}</p>
     <button class="copy-link" id = "clipboard" style = "width: 30px; height: 30px; margin-top: 12px;"><i class="fas fa-clipboard"></i></button>
   </div>
   `;
@@ -42,6 +42,20 @@ createGame.addEventListener("click", function () {
   } else {
     alert("Please enter you name");
   }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const howToPlayBtn = document.getElementById("how-to-play-btn");
+  const rulesContainer = document.getElementById("rules-container");
+  const closeRulesBtn = document.getElementById("close-rules-btn");
+
+  howToPlayBtn.addEventListener("click", function () {
+    rulesContainer.classList.remove("hidden");
+  });
+
+  closeRulesBtn.addEventListener("click", function () {
+    rulesContainer.classList.add("hidden");
+  });
 });
 
 socket.on("gameStart", (data) => {

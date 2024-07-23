@@ -15,6 +15,7 @@ if (creator && opponent) {
   document.getElementById("name--0").textContent = creator;
   document.getElementById("name--1").textContent = opponent;
 }
+
 // Selecting elements
 const score0El = document.querySelector("#score--0");
 const score1El = document.getElementById("score--1");
@@ -58,10 +59,9 @@ function initGame() {
 
 initGame();
 
-function switchPlayer(data) {
+function switchPlayer() {
   player0El.classList.toggle("player--active");
   player1El.classList.toggle("player--active");
-  // socket.emit("playerMove", { inviteCode, type: "switchTurn", activePlayer });
 }
 
 function updatedUI(data) {
@@ -69,7 +69,7 @@ function updatedUI(data) {
   diceEl.classList.remove("hidden");
 
   if (data.type === "roll") {
-    // Dice was rolled.
+    // Dice was rolled
     if (data.dice === 1) {
       // If dice is 1, switch player.
       diceEl.src = `dice-img/dice-${data.dice}.png`;
@@ -96,20 +96,6 @@ function updatedUI(data) {
     ).textContent = data.currentScore;
 
     switchPlayer();
-
-    // if (scores[data.activePlayer] >= 100) {
-    //   // If hold was clicked and the player score is more than 100, the game is over.
-    //   playing = false;
-    //   document
-    //     .querySelector(`.player--${data.activePlayer}`)
-    //     .classList.add("player--winner");
-    //   document
-    //     .querySelector(`.player--${data.activePlayer}`)
-    //     .classList.remove("player--active");
-    //   diceEl.classList.add("hidden");
-    // } else {
-    //   // If hold was clicked and the player score is less than 100, switch the player.
-    // }
   }
 }
 //rolling dice functionality
@@ -117,6 +103,7 @@ btnRoll.addEventListener("click", function () {
   const params = new URLSearchParams(window.location.search);
   let currentPlayer = params.get("player");
   console.log("We rolled");
+
   console.log(playing);
   if (playing) {
     socket.emit("playerMove", {
@@ -126,11 +113,12 @@ btnRoll.addEventListener("click", function () {
     });
   }
 });
-
+const diceSound = new Audio("audio/dice-sound.mp3");
 socket.on("diceRolled", (data) => {
   console.log("Dice was rolled");
   const { dice, currentScore, activePlayer } = data;
   // Update UI based on the received dice roll
+  diceSound.play();
   updatedUI(data);
   if (dice === 1) {
     switchPlayer();
@@ -138,7 +126,7 @@ socket.on("diceRolled", (data) => {
 });
 
 // Hold button functionality
-
+const holdSound = new Audio("audio/hold-sound.mp3");
 btnHold.addEventListener("click", function () {
   if (playing) {
     // 1. current score becomes the total player score
@@ -158,10 +146,6 @@ btnHold.addEventListener("click", function () {
       player: currentPlayer,
       type: "hold",
     });
-
-    // if (scores[activePlayer] < 100) {
-    //   switchPlayer();
-    // }
   }
 });
 
@@ -175,26 +159,16 @@ btnNew.addEventListener("click", function () {
   });
 });
 
-// socket.on("newGame", (data) => {});
-
-// socket.on("playerMove", (data) => {
-//   console.log("Move Recieved:", data);
-//   if (data.type === "switchTurn") {
-//     isMyTurn =
-//       data.activePlayer === (creator === urlParams.get("player") ? 0 : 1);
-//   } else if (data.type === "newGame") {
-//     initGame();
-//   } else {
-//     updatedUI(data);
-//   }
-// });
-
 socket.on("gameStateChanged", (data) => {
   switch (data.type) {
     case "roll":
+      const diceSound = new Audio("audio/dice-sound.mp3");
+      diceSound.play();
       updatedUI(data);
       break;
     case "hold":
+      const holdSound = new Audio("audio/hold-sound.mp3");
+      holdSound.play();
       updatedUI(data);
       break;
     case "newGame":
