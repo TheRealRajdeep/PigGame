@@ -24,7 +24,7 @@ createGame.addEventListener("click", function () {
   <h2>Waiting for other player to join...</h2>
   <p>Share this link with your friend to start the game</p>
   <div style="display:flex; gap: 10px;" class="session-link-container">
-    <p class = "session-link">http://localhost:3000/join/${invite}</p>
+    <p class = "session-link">https://piggame-production.up.railway.app/join/${invite}</p>
     <button class="copy-link" id = "clipboard" style = "width: 30px; height: 30px; margin-top: 12px;"><i class="fas fa-clipboard"></i></button>
   </div>
   `;
