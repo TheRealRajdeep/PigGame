@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pig Game!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<audio  id="background_music" autoplay loop>
+  <source src="In Dreamland background music.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+</head>
+<body>
+    <div class="header">
+        <h1>Pig Game</h1>
+    </div>
+    <div class="dice dice1"><img src="dice-1.png" alt="Dice" width="100vw" height="100vh"></div>
+    <div class="dice dice2"><img src="dice-6.png" alt="Dice" width="100vw" height="100vh"></div>
+  <button class="custom-btn btn-15">Read More</button>
+  <button id="muteButton" onclick="toggleMute()">Mute</button>
+
+  
+    
+    
+</body>
+<style>
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap') */
+
+    :root {
+  --glow-rgb: 239 42 201;
+}
+
+body {
+  background: linear-gradient(145deg, rgb(119, 46, 195), rgb(58, 18, 153));
+  height: 100vh;
+  overflow: hidden;
+  
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.glow-point {
+  position: absolute;
+  box-shadow: 0rem 0rem 1.2rem 0.6rem rgb(var(--glow-rgb));
+  pointer-events: none;
+}
+
+.star {
+  position: absolute;
+  z-index: 2;
+  color: white;
+  font-size: 1rem;
+  animation-duration: 1500ms;
+  animation-fill-mode: forwards;
+  pointer-events: none;
+}
+
+@keyframes fall-1 {
+  0% {
+    transform: translate(0px, 0px) rotateX(45deg) rotateY(30deg) rotateZ(0deg) scale(0.25);
+    opacity: 0;
+  }
+  
+  5% {
+    transform: translate(10px, -10px) rotateX(45deg) rotateY(30deg) rotateZ(0deg) scale(1);
+    opacity: 1;
+  }
+  
+  100% {
+    transform: translate(25px, 200px) rotateX(180deg) rotateY(270deg) rotateZ(90deg) scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes fall-2 {
+  0% {
+    transform: translate(0px, 0px) rotateX(-20deg) rotateY(10deg) scale(0.25);
+    opacity: 0;
+  }
+  
+  10% {
+    transform: translate(-10px, -5px) rotateX(-20deg) rotateY(10deg) scale(1);
+    opacity: 1;
+  }
+  
+  100% {
+    transform: translate(-10px, 160px) rotateX(-90deg) rotateY(45deg) scale(0.25);
+    opacity: 0;
+  }
+}
+
+@keyframes fall-3 {
+  0% {
+    transform: translate(0px, 0px) rotateX(0deg) rotateY(45deg) scale(0.5);
+    opacity: 0;
+  }
+  
+  15% {
+    transform: translate(7px, 5px) rotateX(0deg) rotateY(45deg) scale(1);
+    opacity: 1;
+  }
+  
+  100% {
+    transform: translate(20px, 120px) rotateX(-180deg) rotateY(-90deg) scale(0.5);
+    opacity: 0;
+  }
+
+  
+}
+.header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: 0.8vh;
+    margin: 20px;
+    padding: 5px;
+}
+.header h1{
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    text-align: center;
+    font-size: 15rem;
+    color: #fff;
+}
+
+/* Dice Animation */
+@keyframes float {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.dice {
+    position: absolute;
+    animation: float 5s ease-in-out infinite;
+}
+
+/* Position and size of the dice */
+.dice1 {
+    top: 50%;
+    left: 20%;
+    width: 20px;
+    height: 20px;
+}
+
+.dice2 {
+    top: 30%;
+    left: 70%;
+    width: 20px;
+    height: 20px;
+}
+
+/* Add more dice classes for additional dice */
+
+#muteButton {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+}
+
+
+.custom-btn {
+  width: 130px;
+  height: 40px;
+  color: #fff;
+  border-radius: 5px;
+  padding: 10px 25px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 500;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+   box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+   7px 7px 20px 0px rgba(0,0,0,.1),
+   4px 4px 5px 0px rgba(0,0,0,.1);
+  outline: none;
+}
+.btn-15 {
+  background: #b621fe;
+  border: none;
+  z-index: 1;
+}
+.btn-15:after {
+  position: absolute;
+  content: "";
+  width: 0;
+  height: 100%;
+  top: 0;
+  right: 0;
+  z-index: -1;
+  background-color: #663dff;
+  border-radius: 5px;
+   box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+   7px 7px 20px 0px rgba(0,0,0,.1),
+   4px 4px 5px 0px rgba(0,0,0,.1);
+  transition: all 0.3s ease;
+}
+.btn-15:hover {
+  color: #fff;
+}
+.btn-15:hover:after {
+  left: 0;
+  width: 100%;
+}
+.btn-15:active {
+  top: 2px;
+}
+
+
+</style>
+
+
+
+
+<script>
+    let start = new Date().getTime();
+
+const originPosition = { x: 0, y: 0 };
+
+const last = {
+  starTimestamp: start,
+  starPosition: originPosition,
+  mousePosition: originPosition
+}
+
+const config = {
+  starAnimationDuration: 1500,
+  minimumTimeBetweenStars: 250,
+  minimumDistanceBetweenStars: 75,
+  glowDuration: 75,
+  maximumGlowPointSpacing: 10,
+  colors: ["249 146 253", "252 254 255"],
+  sizes: ["1.4rem", "1rem", "0.6rem"],
+  animations: ["fall-1", "fall-2", "fall-3"]
+}
+
+let count = 0;
+  
+const rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min,
+      selectRandom = items => items[rand(0, items.length - 1)];
+
+const withUnit = (value, unit) => `${value}${unit}`,
+      px = value => withUnit(value, "px"),
+      ms = value => withUnit(value, "ms");
+
+const calcDistance = (a, b) => {
+  const diffX = b.x - a.x,
+        diffY = b.y - a.y;
+  
+  return Math.sqrt(Math.pow(diffX, 2) + Math.pow(diffY, 2));
+}
+
+const calcElapsedTime = (start, end) => end - start;
+
+const appendElement = element => document.body.appendChild(element),
+      removeElement = (element, delay) => setTimeout(() => document.body.removeChild(element), delay);
+
+const createStar = position => {
+  const star = document.createElement("span"),
+        color = selectRandom(config.colors);
+  
+  star.className = "star fa-solid fa-sparkle";
+  
+  star.style.left = px(position.x);
+  star.style.top = px(position.y);
+  star.style.fontSize = selectRandom(config.sizes);
+  star.style.color = `rgb(${color})`;
+  star.style.textShadow = `0px 0px 1.5rem rgb(${color} / 0.5)`;
+  star.style.animationName = config.animations[count++ % 3];
+  star.style.starAnimationDuration = ms(config.starAnimationDuration);
+  
+  appendElement(star);
+
+  removeElement(star, config.starAnimationDuration);
+}
+
+const createGlowPoint = position => {
+  const glow = document.createElement("div");
+  
+  glow.className = "glow-point";
+  
+  glow.style.left = px(position.x);
+  glow.style.top = px(position.y);
+  
+  appendElement(glow)
+  
+  removeElement(glow, config.glowDuration);
+}
+
+const determinePointQuantity = distance => Math.max(
+  Math.floor(distance / config.maximumGlowPointSpacing),
+  1
+);
+
+const createGlow = (last, current) => {
+  const distance = calcDistance(last, current),
+        quantity = determinePointQuantity(distance);
+  
+  const dx = (current.x - last.x) / quantity,
+        dy = (current.y - last.y) / quantity;
+  
+  Array.from(Array(quantity)).forEach((_, index) => { 
+    const x = last.x + dx * index, 
+          y = last.y + dy * index;
+    
+    createGlowPoint({ x, y });
+  });
+}
+
+const updateLastStar = position => {
+  last.starTimestamp = new Date().getTime();
+
+  last.starPosition = position;
+}
+
+const updateLastMousePosition = position => last.mousePosition = position;
+
+const adjustLastMousePosition = position => {
+  if(last.mousePosition.x === 0 && last.mousePosition.y === 0) {
+    last.mousePosition = position;
+  }
+};
+
+const handleOnMove = e => {
+  const mousePosition = { x: e.clientX, y: e.clientY }
+  
+  adjustLastMousePosition(mousePosition);
+  
+  const now = new Date().getTime(),
+        hasMovedFarEnough = calcDistance(last.starPosition, mousePosition) >= config.minimumDistanceBetweenStars,
+        hasBeenLongEnough = calcElapsedTime(last.starTimestamp, now) > config.minimumTimeBetweenStars;
+  
+  if(hasMovedFarEnough || hasBeenLongEnough) {
+    createStar(mousePosition);
+    
+    updateLastStar(mousePosition);
+  }
+  
+  createGlow(last.mousePosition, mousePosition);
+  
+  updateLastMousePosition(mousePosition);
+}
+
+window.onmousemove = e => handleOnMove(e);
+
+window.ontouchmove = e => handleOnMove(e.touches[0]);
+
+document.body.onmouseleave = () => updateLastMousePosition(originPosition);
+
+function toggleMute() {
+    var audio = document.querySelector('audio');
+    audio.muted = !audio.muted;
+    var muteButton = document.getElementById('muteButton');
+    muteButton.textContent = audio.muted ? 'Unmute' : 'Mute';
+}
+
+var audio = document.getElementById("background_music");
+audio.volume = 0.5; // 50% volume
+
+</script>
+</html>
